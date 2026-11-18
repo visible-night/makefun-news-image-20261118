@@ -1,12 +1,14 @@
-// News-image entry: copy the finished picture into the grader's output
-// directory. The image is rendered at build time (see render/news.html);
-// this program only moves the bytes, so every run writes identical output.
-import { copyFileSync, mkdirSync } from "node:fs";
+// Entry program for the news-image competition.
+// The picture (entry.png) is drawn at build time from render/news.html.
+// All this program does is drop an exact copy of it into the output
+// directory the grader reads, so every run writes identical bytes.
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const here = dirname(fileURLToPath(import.meta.url));
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const root = dirname(fileURLToPath(import.meta.url));
+const target = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const picture = readFileSync(join(root, "entry.png"));
 
-mkdirSync(outDir, { recursive: true });
-copyFileSync(join(here, "entry.png"), join(outDir, "entry.png"));
+mkdirSync(target, { recursive: true });
+writeFileSync(join(target, "entry.png"), picture);

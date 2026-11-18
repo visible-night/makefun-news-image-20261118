@@ -2,186 +2,160 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>World news — Wednesday 18 November 2026</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #F7F3EC; font-family: "Noto Sans", "DejaVu Sans", sans-serif; }
-  .page {
-    width: 1024px; height: 1024px; background: #F7F3EC; color: #1A1A1A;
-    padding: 20px 36px 16px; display: flex; flex-direction: column; overflow: hidden;
+  body { background: #F5F1E8; }
+  .canvas {
+    position: relative;
+    width: 1024px; height: 1024px;
+    overflow: hidden;
+    background: #F5F1E8;
+    font-family: "Noto Sans", "DejaVu Sans", sans-serif;
   }
-  .masthead { height: 112px; text-align: center; flex: none; }
-  .kicker { font-size: 30px; font-weight: 700; letter-spacing: 9px; color: #6B6259; line-height: 1.1; }
-  .date { font-size: 58px; font-weight: 700; line-height: 1.05; letter-spacing: 0; }
-  .masthead-rule { border-top: 3px solid #1A1A1A; border-bottom: 1px solid #1A1A1A; height: 5px; margin-top: 7px; }
-  .lead { height: 240px; flex: none; display: flex; gap: 28px; padding-top: 18px; }
-  .lead-text { flex: 1; min-width: 0; }
-  .lead-head { font-size: 48px; font-weight: 700; line-height: 1.08; }
-  .lead-dek { font-size: 34px; line-height: 1.15; color: #2B2B2B; margin-top: 10px; }
-  .lead-visual {
-    width: 280px; flex: none; background: #FFFFFF; border-top: 4px solid #B3261E;
-    display: flex; align-items: center; justify-content: center;
+
+  /* ---- dark date + lead panel ---- */
+  .panel {
+    position: absolute; left: 0; top: 0;
+    width: 360px; height: 1024px;
+    background: #14161A; color: #FFFFFF;
+    padding: 30px 28px 26px;
   }
-  .divider { height: 10px; flex: none; border-bottom: 2px solid #D8D0C4; }
-  .grid {
-    height: 558px; flex: none; display: grid;
-    grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr;
-    gap: 14px 28px; padding-top: 18px;
+  .kicker {
+    font-size: 28px; font-weight: 700;
+    color: #E8B400; letter-spacing: 7px;
   }
-  .cell { display: flex; gap: 14px; align-items: flex-start; }
-  .tile {
-    width: 76px; height: 76px; flex: none; background: #EFE9DE; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
+  .dow {
+    font-size: 46px; font-weight: 700;
+    margin-top: 16px; letter-spacing: 1px;
   }
-  .tile-num { font-size: 52px; font-weight: 700; color: #1A1A1A; line-height: 1; }
-  .cell-text { flex: 1; min-width: 0; }
-  .cell-head { font-size: 40px; font-weight: 700; line-height: 1.08; }
-  .cell-dek { font-size: 34px; line-height: 1.12; color: #333333; margin-top: 4px; }
-  .footer {
-    height: 68px; flex: none; border-top: 2px solid #1A1A1A;
-    padding-top: 8px; text-align: center;
+  .daynum {
+    font-size: 190px; font-weight: 700;
+    color: #E8B400; line-height: 0.92;
+    margin-top: 2px; letter-spacing: -4px;
   }
-  .foot-line { font-size: 26px; line-height: 1.2; color: #6B6259; }
+  .monthyear {
+    font-size: 34px; font-weight: 700;
+    margin-top: 8px; letter-spacing: 1px;
+  }
+  .rule-amber {
+    width: 64px; height: 5px;
+    background: #E8B400; margin: 18px 0 16px;
+  }
+  .lead-head {
+    font-size: 44px; font-weight: 700; line-height: 1.08;
+  }
+  .lead-dek {
+    font-size: 34px; line-height: 1.28;
+    color: #D8D8D8; margin-top: 14px;
+  }
+  .lead-art { margin-top: 16px; }
+  .panel-foot {
+    font-size: 26px; line-height: 1.35;
+    color: #9AA0A6; margin-top: 14px;
+  }
+  .divider {
+    position: absolute; left: 360px; top: 0;
+    width: 5px; height: 1024px; background: #E8B400;
+  }
+
+  /* ---- light story field ---- */
+  .field {
+    position: absolute; left: 360px; top: 0;
+    width: 664px; height: 1024px;
+    padding: 20px 28px;
+  }
+  .story { margin-bottom: 0; }
+  .story.indent { margin-left: 24px; }
+  .num {
+    font-size: 52px; font-weight: 700; color: #C8102E;
+  }
+  .num.single { font-size: 60px; }
+  .num.wide { font-size: 44px; }
+  .head {
+    font-size: 40px; font-weight: 700;
+    color: #1A1A1A; line-height: 1.08;
+  }
+  .head.big { font-size: 44px; }
+  .dek {
+    font-size: 34px; line-height: 1.18;
+    color: #3A3A3A; margin-top: 6px;
+  }
+  .sep { height: 2px; background: #D8D0C4; margin: 10px 0; }
+  .sep.narrow { width: 55%; }
+  .sep.mid { width: 72%; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="canvas">
 
-  <div class="masthead">
+  <div class="panel">
     <div class="kicker">WORLD NEWS</div>
-    <div class="date">WEDNESDAY 18 NOVEMBER 2026</div>
-    <div class="masthead-rule"></div>
+    <div class="dow">WEDNESDAY</div>
+    <div class="daynum">18</div>
+    <div class="monthyear">NOVEMBER 2026</div>
+    <div class="rule-amber"></div>
+    <div class="lead-head">US&ndash;Iran war escalates overnight</div>
+    <div class="lead-dek">US says it sank five tankers; Iran says it hit ten ships.</div>
+    <div class="lead-art">
+      <svg width="300" height="120" viewBox="0 0 300 120">
+        <!-- flame -->
+        <path fill="#E2482E" d="M150 4 C160 26 176 36 176 56 C176 70 164 80 150 80 C136 80 124 70 124 56 C124 44 130 36 134 24 C138 32 141 34 143 26 C145 18 145 12 150 4 Z"/>
+        <path fill="#F5C518" d="M150 34 C154 44 161 48 161 58 C161 66 157 70 150 70 C143 70 139 66 139 58 C139 52 142 48 143 42 C145 46 148 46 148 42 C148 38 148 36 150 34 Z"/>
+        <!-- tanker hull, raked bow on the right -->
+        <path fill="#E8B400" d="M14 86 L248 86 L282 98 L264 106 L34 106 Z"/>
+        <!-- white bridge tower -->
+        <rect x="216" y="58" width="30" height="28" fill="#FFFFFF"/>
+        <rect x="222" y="64" width="8" height="8" fill="#14161A"/>
+        <rect x="232" y="64" width="8" height="8" fill="#14161A"/>
+        <rect x="188" y="70" width="20" height="16" fill="#FFFFFF"/>
+        <!-- hull portholes -->
+        <circle cx="52" cy="96" r="5" fill="#14161A"/>
+        <circle cx="76" cy="96" r="5" fill="#14161A"/>
+        <circle cx="100" cy="96" r="5" fill="#14161A"/>
+        <circle cx="124" cy="96" r="5" fill="#14161A"/>
+        <!-- waves -->
+        <path d="M8 114 Q28 106 48 114 T88 114 T128 114 T168 114 T208 114 T248 114 T288 114" stroke="#5A6472" stroke-width="3" fill="none"/>
+      </svg>
+    </div>
+    <div class="panel-foot">
+      Events first reported 18 Nov 2026<br>
+      Sources: One Turn, Paris&nbsp;Eye, Nexus Europa
+    </div>
   </div>
 
-  <div class="lead">
-    <div class="lead-text">
-      <div class="lead-head">US&ndash;Iran war escalates overnight</div>
-      <div class="lead-dek">US says it sank five tankers; Iran says it struck ten ships near Hormuz.</div>
+  <div class="field">
+    <div class="story">
+      <div class="head big"><span class="num single">2&nbsp;&middot;</span> Kerch Bridge hit a second night</div>
+      <div class="dek">Ukraine strikes; Russia hits back.</div>
     </div>
-    <div class="lead-visual">
-      <svg width="252" height="196" viewBox="0 0 260 200" aria-label="Tanker at sea with fire">
-        <path d="M118 18 C 128 34, 108 40, 118 54 C 124 62, 112 68, 118 78 C 126 90, 142 84, 146 70 C 150 56, 138 52, 142 40 C 146 28, 132 22, 130 10 C 128 2, 118 8, 118 18 Z" fill="#B3261E"/>
-        <path d="M126 52 C 130 60, 122 64, 126 72 C 130 80, 140 76, 140 68 C 140 60, 132 58, 132 50 C 132 44, 124 46, 126 52 Z" fill="#E8A33D"/>
-        <rect x="150" y="86" width="34" height="30" fill="#1A1A1A"/>
-        <rect x="156" y="74" width="22" height="12" fill="#1A1A1A"/>
-        <rect x="196" y="96" width="10" height="20" fill="#1A1A1A"/>
-        <path d="M18 116 L 244 116 L 232 148 L 34 148 Z" fill="#1A1A1A"/>
-        <path d="M20 168 q 14 -12 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0" stroke="#6B6259" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M20 188 q 14 -12 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0" stroke="#D8D0C4" stroke-width="4" fill="none" stroke-linecap="round"/>
-      </svg>
+    <div class="sep"></div>
+    <div class="story indent">
+      <div class="head"><span class="num single">3&nbsp;&middot;</span> Xi and Putin meet in Shenzhen</div>
+      <div class="dek">Summit with Trump follows.</div>
+    </div>
+    <div class="sep narrow"></div>
+    <div class="story">
+      <div class="head"><span class="num">56&nbsp;&middot;</span> Peltola wins in Alaska</div>
+      <div class="dek">Democrats reach 56 Senate seats.</div>
+    </div>
+    <div class="sep"></div>
+    <div class="story">
+      <div class="head"><span class="num wide">11,000&nbsp;&middot;</span> Ebola outbreak doubles in Congo</div>
+      <div class="dek">UN: 5,400 deaths, 11,000 cases.</div>
+    </div>
+    <div class="sep mid"></div>
+    <div class="story">
+      <div class="head"><span class="num single">5&nbsp;&middot;</span> Cyclone Xavier hits Cook Islands</div>
+      <div class="dek">Category 5, strikes the north.</div>
+    </div>
+    <div class="sep"></div>
+    <div class="story indent">
+      <div class="head"><span class="num">1.7M&nbsp;&middot;</span> Gaza winter warning</div>
+      <div class="dek">UN warns of cold deaths; 1.7 million displaced.</div>
     </div>
   </div>
 
   <div class="divider"></div>
-
-  <div class="grid">
-
-    <div class="cell">
-      <div class="tile">
-        <svg width="56" height="56" viewBox="0 0 64 64" aria-label="Broken bridge">
-          <line x1="4" y1="26" x2="27" y2="26" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
-          <line x1="37" y1="26" x2="60" y2="26" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
-          <path d="M27 26 L 30 32 L 33 26 L 36 32 L 37 26" stroke="#B3261E" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="12" y1="26" x2="12" y2="52" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
-          <line x1="52" y1="26" x2="52" y2="52" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
-          <path d="M12 52 q 20 -14 40 0" stroke="#1A1A1A" stroke-width="3" fill="none" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="cell-text">
-        <div class="cell-head">Kerch Bridge hit a second night</div>
-        <div class="cell-dek">Ukraine strikes; Russia hits back.</div>
-      </div>
-    </div>
-
-    <div class="cell">
-      <div class="tile">
-        <svg width="56" height="56" viewBox="0 0 64 64" aria-label="Three leaders meeting">
-          <circle cx="14" cy="22" r="8" fill="#1A1A1A"/>
-          <path d="M4 52 C 4 42, 24 42, 24 52 Z" fill="#1A1A1A"/>
-          <circle cx="32" cy="18" r="8" fill="#1A1A1A"/>
-          <path d="M22 52 C 22 42, 42 42, 42 52 Z" fill="#1A1A1A"/>
-          <circle cx="50" cy="22" r="8" fill="#1A1A1A"/>
-          <path d="M40 52 C 40 42, 60 42, 60 52 Z" fill="#1A1A1A"/>
-        </svg>
-      </div>
-      <div class="cell-text">
-        <div class="cell-head">Xi and Putin meet in Shenzhen</div>
-        <div class="cell-dek">Talks open ahead of a summit with Trump.</div>
-      </div>
-    </div>
-
-    <div class="cell">
-      <div class="tile">
-        <svg width="56" height="56" viewBox="0 0 64 64" aria-label="Missile launch">
-          <path d="M8 56 C 20 44, 34 30, 52 14" stroke="#6B6259" stroke-width="3" fill="none" stroke-dasharray="5 5" stroke-linecap="round"/>
-          <g transform="rotate(45 48 16)">
-            <path d="M48 2 C 52 8, 54 12, 54 18 L 54 26 L 42 26 L 42 18 C 42 12, 44 8, 48 2 Z" fill="#1A1A1A"/>
-            <path d="M42 26 L 38 34 L 44 32 L 46 34 L 48 30 L 50 34 L 52 32 L 58 34 L 54 26 Z" fill="#B3261E"/>
-          </g>
-        </svg>
-      </div>
-      <div class="cell-text">
-        <div class="cell-head">North Korea fires missile to sea</div>
-        <div class="cell-dek">Seoul reports a missile launch.</div>
-      </div>
-    </div>
-
-    <div class="cell">
-      <div class="tile"><span class="tile-num">56</span></div>
-      <div class="cell-text">
-        <div class="cell-head">Peltola wins in Alaska</div>
-        <div class="cell-dek">Democrats reach 56 Senate seats.</div>
-      </div>
-    </div>
-
-    <div class="cell">
-      <div class="tile">
-        <svg width="56" height="56" viewBox="0 0 64 64" aria-label="Virus">
-          <circle cx="32" cy="32" r="13" fill="#1A1A1A"/>
-          <g stroke="#1A1A1A" stroke-width="4" stroke-linecap="round">
-            <line x1="32" y1="6" x2="32" y2="17"/>
-            <line x1="32" y1="47" x2="32" y2="58"/>
-            <line x1="6" y1="32" x2="17" y2="32"/>
-            <line x1="47" y1="32" x2="58" y2="32"/>
-            <line x1="14" y1="14" x2="22" y2="22"/>
-            <line x1="42" y1="42" x2="50" y2="50"/>
-            <line x1="50" y1="14" x2="42" y2="22"/>
-            <line x1="22" y1="42" x2="14" y2="50"/>
-          </g>
-          <circle cx="27" cy="29" r="3" fill="#F7F3EC"/>
-          <circle cx="37" cy="36" r="3" fill="#F7F3EC"/>
-          <circle cx="36" cy="27" r="2" fill="#F7F3EC"/>
-        </svg>
-      </div>
-      <div class="cell-text">
-        <div class="cell-head">Ebola outbreak doubles in Congo</div>
-        <div class="cell-dek">UN: over 11,000 cases, 5,400 deaths.</div>
-      </div>
-    </div>
-
-    <div class="cell">
-      <div class="tile">
-        <svg width="56" height="56" viewBox="0 0 64 64" aria-label="Cyclone">
-          <g stroke="#1A1A1A" stroke-width="4" fill="none" stroke-linecap="round">
-            <path d="M32 32 m 0 -6 a 6 6 0 0 1 6 6 a 6 6 0 0 1 -6 6"/>
-            <path d="M32 32 m 0 -13 a 13 13 0 0 1 13 13 a 13 13 0 0 1 -13 13 a 13 13 0 0 1 -11 -6"/>
-            <path d="M32 32 m 0 -20 a 20 20 0 0 1 20 20 a 20 20 0 0 1 -20 20 a 20 20 0 0 1 -19 -14"/>
-          </g>
-          <circle cx="32" cy="32" r="3" fill="#1A1A1A"/>
-        </svg>
-      </div>
-      <div class="cell-text">
-        <div class="cell-head">Cyclone Xavier hits Cook Islands</div>
-        <div class="cell-dek">Category 5 storm strikes the north.</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="footer">
-    <div class="foot-line">Events first reported 18 Nov 2026</div>
-    <div class="foot-line">Sources: One Turn, Paris Eye, Nexus Europa, Arab News</div>
-  </div>
 
 </div>
 </body>

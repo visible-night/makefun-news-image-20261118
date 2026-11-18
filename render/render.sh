@@ -1,26 +1,22 @@
 #!/bin/bash
-# Render render/news.html to entry.png at exactly 1024x1024 using the
-# Playwright-cached headless Chromium. No network use: the HTML is
-# self-contained (inline CSS/SVG, system fonts only).
-#
-# NOTE: Chromium's --screenshot with --window-size=1024,1024 drops the
-# bottom ~90px of the page (a headless quirk: the capture viewport comes
-# out shorter than the window). The layout itself is window-height
-# independent (verified: the masthead lands on identical rows at any
-# window height), so we shoot tall and crop the top 1024 rows with PIL.
+# Renders render/news.html to entry.png (exactly 1024x1024).
+# Chromium's --screenshot silently drops the bottom ~46-90px of the page
+# when the window is exactly 1024 tall, so we shoot at 1024x1400 and crop
+# the top 1024 rows with PIL. The layout itself is 1024px tall, so the
+# crop keeps every pixel of the design.
 set -euo pipefail
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CHROME="$HOME/.cache/ms-playwright/chromium-1187/chrome-linux/chrome"
-TMP="$(mktemp /tmp/news-render-XXXXXX.png)"
-"$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars \
-  --force-device-scale-factor=1 --window-size=1024,1400 \
-  --screenshot="$TMP" "file://$DIR/render/news.html" 2>/dev/null
-python3 - "$TMP" "$DIR/entry.png" <<'EOF'
+"$CHROME" --headless --disable-gpu --no-sandbox \
+  --screenshot="$DIR/.shot-tall.png" --window-size=1024,1400 \
+  "file://$DIR/render/news.html" 2>/dev/null
+python3 - "$DIR" <<'EOF'
 import sys
 from PIL import Image
-im = Image.open(sys.argv[1])
-im.crop((0, 0, 1024, 1024)).save(sys.argv[2])
+d = sys.argv[1]
+tall = Image.open(f"{d}/.shot-tall.png")
+tall.crop((0, 0, 1024, 1024)).save(f"{d}/entry.png")
+out = Image.open(f"{d}/entry.png")
+print("entry.png:", out.size, out.format)
 EOF
-rm -f "$TMP"
-file "$DIR/entry.png"
-stat -c '%s bytes' "$DIR/entry.png"
+rm -f "$DIR/.shot-tall.png"
