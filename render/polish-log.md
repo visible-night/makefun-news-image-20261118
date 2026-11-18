@@ -1,52 +1,54 @@
-# Polish log — news image v2 (news-image-20261118)
+# Polish log — news-image-20261118 v3
 
-## Round 1 — first render (draft 1, sha 7483c0a8)
-Looked at the full-size PNG. What works: the giant amber "18" is
-unmissable; WEDNESDAY / NOVEMBER 2026 read clearly; the dark/light split is
-immediately distinctive and nothing like v1's newspaper grid; all 7 stories
-are present, headlines and deks readable, no garbled text, no collisions;
-the red numerals anchor every story.
+## Draft 1 — rendered, critiqued
 
-Three worst things:
-1. OVERFLOW (critical): the Gaza dek's second line ("displaced.") is clipped
-   at the canvas bottom edge. The right field runs ~25px too tall.
-2. The tanker/flame SVG is weak: the flame is tiny and floats oddly, the
-   hull reads as a flat yellow bar, and the waves are missing entirely —
-   the wave path sits at y~112, outside the 100-tall viewBox, so it is
-   clipped away.
-3. The panel footer is heavy: the sources line wraps to 3 lines and the
-   footer crowds the panel's bottom edge, leaving no breathing room.
+The good: genuinely photographic at first glance — the globe centerpiece,
+masthead with the giant amber "18", and the photo panels read as a premium
+cinematic news cover, nothing like the flat v1/v2 layouts. The globe
+overlapping the tanker lead panel looks intentional. The dotted map reads
+as a world map with network arcs.
 
-Fixes for draft 2: tighten the right field (separator margins 16->12px,
-dek line-height 1.22->1.18, field padding 26->22px) to reclaim ~55px;
-redesign the SVG (viewBox 300x120, bigger flame, raked-bow hull, white
-superstructure, waves inside the viewBox); shorten the footer sources to
-three outlets; bump the "18" to 190px now the panel has room.
+The bad (all fixed in draft 2):
+1. Region tabs collided with headlines on four panels (Kerch, Shenzhen,
+   Congo, Gaza): the bottom-anchored text blocks grew upward into the tab
+   zone. Fix: shortened every headline to 2 lines and every dek to 2 lines
+   (text block now clears the 41px tab zone); Gaza lost its dek (headline
+   alone carries it, like Cyclone).
+2. "WORLD NEWS" wrapped to two lines and overlapped the lead headline.
+   Fix: one line at 44px, wider label, moved up onto the globe.
+3. Numbers panel rows wrapped (flex column too narrow) and the 4th row
+   spilled out of the panel. Fix: inline rows (bold number + label on one
+   line), 4th row changed to "56 Senate seats" (fits; $12bn figure dropped
+   from the image).
+4. Footer sources line overflowed the footer (4 lines in 128px). Fix:
+   shortened to "All events from 18 Nov 2026" (2 lines + sources = 3 lines).
 
-## Round 2 — draft 2 (sha 8151036e)
-All three round-1 fixes landed: the Gaza dek is fully visible, the tanker
-reads as a burning tanker (hull, portholes, white bridge tower, waves), the
-footer has breathing room. 300px downscale: the date is unmistakable, all
-seven headlines legible, deks readable.
+## Draft 2 — rendered, critiqued
 
-Three worst things:
-1. Numeral imbalance: single-digit numerals (2, 3, 5) look lost next to
-   "11,000" and "56" at the same 52px — unequal visual weight.
-2. The panel/field split is just two rectangles touching — it needs a
-   deliberate graphic device to feel designed.
-3. Bad line break in the footer: "Paris" ends one line and "Eye" starts the
-   next, splitting a source's name across lines.
+All four draft-1 fixes verified: tabs clear of headlines on every panel,
+"WORLD NEWS" on one line over the globe with no overlap, all four numbers
+rows visible on single lines, date unmissable, 300px downscale reads well.
+One issue left: the footer sources line still overflowed — "All events
+from 18 Nov 2026" (2 lines) + "Sources: One Turn, Paris Eye" (2 lines)
+is 4 lines in a 128px footer, so "Paris Eye" was cut at the bottom edge.
+Fix in draft 3: sources shortened to "Sources: One Turn" (3 lines total);
+full source list stays in the README.
 
-Fixes for draft 3: equalize numeral weight (singles 60px, "11,000" 44px,
-"56"/"1.7M" stay 52px; compensated by separator margins 12->10px and field
-padding 22->20px); add a 5px amber vertical divider at the split, echoing
-the amber rule under the date; keep "Paris Eye" together with a non-breaking
-space.
+## Draft 3 — FINAL
 
-## Round 3 — draft 3, FINAL (sha 97e53805)
-All round-2 fixes landed: the numerals now balance, the amber seam makes
-the split feel intentional, the footer breaks cleanly ("Sources: One Turn, /
-Paris Eye, Nexus Europa"). Full look at 1024px and at 300px: date reads
-first, lead second, every story clear, nothing false or hyped, every word
-spelled right, nothing below the type floors, composition holds at 300px.
-Word count 102 (cap 120). No further fix worth making — stopping here.
+Footer sources fixed: "All events from 18 Nov 2026" (2 lines) +
+"Sources: One Turn" (1 line), all visible, nothing cut. Final check:
+1024x1024, JPEG 285,163 bytes, 101 words (counted programmatically),
+determinism PASS (two main.ts runs byte-identical), viewed full-size and
+at 300px — date prominent, all 7 headlines readable, no collisions, no
+garbled text, nothing cut off. The image reads as photographic and
+cinematic at first glance: globe centerpiece, full-bleed photo panels,
+data strip, takeaways, dotted map footer — the reference's visual
+language, carrying only verified 18 Nov news.
+
+First render of the photographic cinematic layout: masthead with giant amber
+"18", globe centerpiece overlapping the tanker lead panel, four side photo
+panels, bottom row (cyclone, Gaza, numbers), footer with takeaways + dotted
+map + sources. To check: does it look photographic at first glance (not a
+flat typographic layout)? Is the date unmissable? Any clipped text, any
+headline wrapping past its panel, any tab colliding with the globe overlap?
